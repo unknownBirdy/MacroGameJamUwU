@@ -19,20 +19,13 @@ public class fallingPlatform : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {   //upon exiting the platform, it will come to a stop again
-        
+        StopCoroutine(Fall());
     }
 
     private IEnumerator Fall()
     {
         yield return new WaitForSeconds(fallDelay);
         rb.bodyType = RigidbodyType2D.Dynamic;
-        Destroy(gameObject, destroyDelay);
-    }
-
-    private IEnumerator Stop()
-    {
-        yield return new WaitForSeconds(fallDelay);
-        rb.bodyType = RigidbodyType2D.K;
         Destroy(gameObject, destroyDelay);
     }
 
