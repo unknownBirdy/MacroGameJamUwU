@@ -16,6 +16,12 @@ public class fallingPlatform : MonoBehaviour
             StartCoroutine(Fall());
         }
     }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {   //upon exiting the platform, it will come to a stop again
+        
+    }
+
     private IEnumerator Fall()
     {
         yield return new WaitForSeconds(fallDelay);
@@ -23,5 +29,15 @@ public class fallingPlatform : MonoBehaviour
         Destroy(gameObject, destroyDelay);
     }
 
+    private IEnumerator Stop()
+    {
+        yield return new WaitForSeconds(fallDelay);
+        rb.bodyType = RigidbodyType2D.K;
+        Destroy(gameObject, destroyDelay);
+    }
+
+
+
     //if the platform needs to move up = not dynamic but with numbers?
+    //to do: platform activated upin
 }
