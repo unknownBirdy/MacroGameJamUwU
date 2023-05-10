@@ -4,29 +4,59 @@ using UnityEngine;
 
 public class fallingPlatform : MonoBehaviour
 {
-    private float fallDelay = 0.5f;
-    private float destroyDelay = 2f;
+    public float fallDelay = 0f;
+    
 
     [SerializeField] private Rigidbody2D rb;
-    
+
+    ItemDeleter _itemDeleter;
+
+    void Start()
+    {
+        _itemDeleter = FindObjectOfType<ItemDeleter>();
+
+    }
+
+
+    //-------------------------------------------------------------------------------------------  call upon methods
+
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
+            //this will set the platform in action (going solemnly down)
             StartCoroutine(Fall());
+            Debug.Log(_itemDeleter.boots);
+            
+        }
+    }
+   
+    private void OnCollisionExit2D(Collision2D collision)
+    {   
+        //upon exiting the platform, it will come to a stop again
+        if (collision.gameObject.CompareTag("Player"))          
+        {   
+            //this will stop the platform
+            StartCoroutine(Stop());
         }
     }
 
-    private void OnCollisionExit2D(Collision2D collision)
-    {   //upon exiting the platform, it will come to a stop again
-        StopCoroutine(Fall());
-    }
+    
+   // ------------------------------------------------------------------------------------------- fall downwards method without gravity change
+
 
     private IEnumerator Fall()
     {
         yield return new WaitForSeconds(fallDelay);
         rb.bodyType = RigidbodyType2D.Dynamic;
-        Destroy(gameObject, destroyDelay);
+        rb.gravityScale = _itemDeleter.gravityUp;
+    }
+
+    private IEnumerator Stop()
+    {
+        yield return new WaitForSeconds(fallDelay);
+        rb.bodyType = RigidbodyType2D.Static;
     }
 
 

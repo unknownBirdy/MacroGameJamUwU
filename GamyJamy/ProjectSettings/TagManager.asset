@@ -6,11 +6,12 @@ TagManager:
   tags:
   - Ground
   - shootPlat
+  - boots
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - shootPlat
   - Water
   - UI
   - 
