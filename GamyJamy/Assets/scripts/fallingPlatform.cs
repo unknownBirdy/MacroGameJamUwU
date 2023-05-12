@@ -14,12 +14,15 @@ public class fallingPlatform : MonoBehaviour
     void Start()
     {
         _itemDeleter = FindObjectOfType<ItemDeleter>();
-
     }
 
 
     //-------------------------------------------------------------------------------------------  call upon methods
 
+    void Update()
+    {
+        rb.gravityScale = _itemDeleter.gravityUp;
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -28,6 +31,7 @@ public class fallingPlatform : MonoBehaviour
             //this will set the platform in action (going solemnly down)
             StartCoroutine(Fall());
             Debug.Log(_itemDeleter.boots);
+
             
         }
     }

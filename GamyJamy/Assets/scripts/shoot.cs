@@ -6,50 +6,45 @@ using UnityEngine;
 public class shoot : MonoBehaviour
 {
     public Transform firePoint;
-    private Vector3 _lastPosition;
-    private Transform currentPosition;
+    public GameObject _firePoint;
+    public GameObject shootPlat;
 
-    [SerializeField] private LayerMask shootPlat;
+    public float movedirection = 0.0f;
 
-   /* void Start()
-    {
-        // set initial value for lastPosition
-        _lastPosition = this.transform.position;
-    }
-    */
+
     void Update()
-    {/*
-        // get current position
-        currentPosition = this.transform.position;
-
-        // do anything you need to with the positions        CODE
-        
-        // set last to current so the next frame of Update() is ready
-        _lastPosition = this.transform.position;
-        */
-
+    {
         if (Input.GetButtonDown("Fire1"))
         {
             Shoot();
         }
     }
     
+    //---------------------------------------------------------------------------------------- above = all variables        below = shoot function
+
     void Shoot()
     {
-
-        //this sets the direction of the "shot"
-        RaycastHit2D hitInfo = Physics2D.Raycast(firePoint.position, firePoint.right, shootPlat.value);
+        RaycastHit2D hitInfo = Physics2D.Raycast(firePoint.position, firePoint.right);
 
         try
         {
-            if (hitInfo)
-            {   //check the Tag and output "Hit" if true
+            if (hitInfo.collider.CompareTag("shootPlat"))
+            {
+                if(_firePoint.transform.position.x > shootPlat.transform.position.x)
+                {
+                    movedirection = 1.0f;
+                }
+                else if (_firePoint.transform.position.x < shootPlat.transform.position.x)
+                {
+                    movedirection = -1.0f;
+                }
+
                 Debug.Log(hitInfo.collider.name);
             }
         }
-
-        catch (Exception e)
-        {   //catch the exception if nothing is hit
+        catch (Exception)
+        {   
+            //catch the exception if nothing is hit
             Debug.Log("not hit");
         }
         
